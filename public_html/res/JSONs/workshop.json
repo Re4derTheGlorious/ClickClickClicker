@@ -1,0 +1,61 @@
+[
+    {"name":"Manual Labour 1", "description":"Clicking gives more Knowledge and a little bit of matter.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":1000}],
+    "click_power_add":[{"resource":"Knowledge", "amount":1}, {"resource":"Matter", "amount":0.01}]},
+    
+    {"name":"Manual Labour 2", "description":"More Knowledge and matter from clicking.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":5000}],
+    "click_power_add":[{"resource":"Knowledge", "amount":1}, {"resource":"Matter", "amount":0.05}]},
+    
+    {"name":"Work Routines 1", "description":"Every click gets multiplied income.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":1500}],
+    "click_power_add":[{"resource":"*all", "amount":0.15}]},
+    
+    {"name":"Work Routines 2", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]},
+    
+    {"name":"Robotic Labour 1", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Robotic Labour 2", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Autonomous Robot Workers 1", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Autonomous Robot Workers 2", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Universal Robot Workers 1", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Universal Robot Workers 2", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Workflow Optimalization 1", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Workflow Optimalization 2", "description":"todo", "unlocked":false, "avaible":false,
+    "cost":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Computer Controlled Forges", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]},
+    
+    {"name":"High Temperature Forges", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]},
+    
+    {"name":"Flexible Matter Collectors", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]},
+    
+    {"name":"Complex Compression", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]},
+    
+    {"name":"Complex Algorithms", "description":"More click multiplier.", "unlocked":false, "avaible":false, "type_click_power_add":true,
+    "cost":[{"resource":"Knowledge", "amount":8000}],
+    "click_power_add":[{"resource":"*all", "amount":0.1}]}
+]

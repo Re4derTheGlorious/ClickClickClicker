@@ -1,0 +1,34 @@
+[
+    {"name":"Algorithm", "ratio":1.2, "description":"TODO", "curr":0, "avaible":false, "type_income":true,
+    "cost":[{"resource":"Knowledge", "amount":10}],
+    "income":[{"resource":"Knowledge", "amount":0.1}]},
+    
+    {"name":"Matter Collector", "ratio":1.7, "description":"TODO", "curr":0, "avaible":false, "type_income":true,
+    "cost":[{"resource":"Matter", "amount":5}],
+    "income":[{"resource":"Matter", "amount":0.1}]},
+    
+    {"name":"Industrial Storage", "ratio":1.1, "description":"TODO", "curr":0, "avaible":false, "type_storage": true,
+    "cost":[{"resource":"Metal", "amount":5}, {"resource":"Plastic", "amount":10}],
+    "storage":[{"resource":"Matter", "amount":50}, {"resource":"Electronics", "amount":5}, {"resource":"Metal", "amount":25}, {"resource":"Plastic", "amount":25}]},
+    
+    {"name":"Matter Forge", "ratio":1.5, "description":"TODO", "curr":0, "avaible":false, "type_income": true, "type_conversion":true,
+    "cost":[{"resource":"Matter", "amount":50}],
+    "active_facilities":0,
+    "income":[{"resource":"Metal", "amount":0.05}, {"resource":"Plastic", "amount":0.05}, {"resource":"Waste", "amount":0.01},{"resource":"Matter", "amount":-0.15},{"resource":"Water", "amount":-0.01}]},
+    
+    {"name":"Data Processor", "ratio":1.3, "description":"TODO", "curr":0, "avaible":false, "type_income": true,
+    "cost":[{"resource":"Electronics", "amount":10}, {"resource":"Knowledge", "amount":400}],
+    "income":[{"resource":"Knowledge", "amount":1}]},
+    
+    {"name":"Data Compressor", "ratio":1.1, "description":"TODO", "curr":0, "avaible":false, "type_storage": true,
+    "cost":[{"resource":"Electronics", "amount":10}],
+    "storage":[{"resource":"Knowledge", "amount":500}, {"resource":"Blueprint", "amount":100}]},
+    
+    {"name":"Assembly Plant", "ratio":1.2, "description":"TODO", "curr":0, "avaible":false, "type_income":true, "type_conversion":true,
+    "cost":[{"resource":"Metal", "amount":100}, {"resource":"Plastic", "amount":100}, {"resource":"Knowledge", "amount":1000}],
+    "income":[{"resource":"Metal", "amount":-10}, {"resource":"Blueprint", "amount":-15}, {"resource":"Knowledge", "amount":-10}, {"resource":"Electronics", "amount":1}]},
+    
+    {"name":"CAD System", "ratio":1.5, "description":"TODO", "curr":0, "avaible":false, "type_income": true, "type_conversion":true,
+    "cost":[{"resource":"Electronics", "amount":5}, {"resource":"Metal", "amount":25}, {"resource":"Plastic", "amount":150}, {"resource":"Knowledge", "amount":250}],
+    "income":[{"resource":"Knowledge", "amount":1}, {"resource":"Blueprint", "amount":0.1}]}
+]

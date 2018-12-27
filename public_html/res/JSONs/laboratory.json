@@ -1,0 +1,45 @@
+[
+    {"name":"Starfaring", "description":"A basic technology required to start your flight. It will allow further studies of science and industry.", "unlocked":false, "avaible":true, 
+    "cost":[{"resource":"Knowledge", "amount":30}], 
+    "unlocks":[{"name":"Scientific Developement"},{"name":"Survival"}]},
+    
+    {"name":"Scientific Developement", "description":"Since knowledge is your most important resource you need to master it in order to reach advanced technologies.", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":80}], 
+    "unlocks":[{"name":"Primitive Industry"},{"name":"Scientific Ways"},{"name":"Algorithm"}]},
+
+    {"name":"Primitive Industry", "description":"Well, not that primitive as it sounds. Its much more difficult to use known industrial machines aboard, due to space and energy issues. But with proper modifications it's possibile to run basic industry.", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":250}], 
+    "unlocks":[{"name":"Matter Handling"},{"name":"Matter Collector"}]},
+    
+    {"name":"Survival", "description":"What can go wrong when you drift through space with huge velocity on a little, defenceless space shuttle? Well, basically everything.", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":100}], 
+    "unlocks":[{"name":"Living Spaces"},{"name":"Life Support Calibration"}]},
+    
+    {"name":"Matter Handling", "description":"Collecting and storing matter is only first step onto a gret industry. It can be further processed into advanced components.", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":300}], 
+    "unlocks":[{"name":"Electronic Systems"},{"name":"Manpower Management"}, {"name":"Matter Forge"},{"name":"Industrial Storage"}]},
+    
+    {"name":"Scientific Ways", "description":"To ensure a smooth flow of data there must be prepared a network of computing devices. It consists of processing devices and storage units connected together.", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":500}], 
+    "unlocks":[{"name":"Data Processing"},{"name":"Data Storing"}, {"name":"Data Processor"}, {"name":"Data Compressor"}]},
+    
+    {"name":"Manpower Management", "description":"TODO", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":1000}], 
+    "unlocks":[{"name":"Robotics"},{"name":"Manual Labour 1"}, {"name":"Manual Labour 2"}, {"name":"Work Routines 1"}, {"name":"Work Routines 2"}]},
+    
+    {"name":"Robotics", "description":"TODO", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":15000}], 
+    "unlocks":[{"name":"Automated Industry"},{"name":"Robotic Labour 1"}, {"name":"Robotic Labour 2"}, {"name":"Autonomous Robot Workers 1"}, {"name":"Autonomous Robot Workers 2"}]},
+
+    {"name":"Automated Industry", "description":"TODO", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":650000}], 
+    "unlocks":[{"name":"Robotics"},{"name":"Universal Robot Workers 1"}, {"name":"Universal Robot Workers 2"}, {"name":"Workflow Optimalization 1"}, {"name":"Workflow Optimalization 2"}]},
+    
+    {"name":"Electronic Systems", "description":"TODO", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":10000}], 
+    "unlocks":[{"name":"Optimization"}, {"name":"Energy Supplies"}, {"name":"Computer Controlled Forges"}, {"name":"High Temperature Forges"}, {"name":"Flexible Matter Collectors"}, {"name":"Assembly Plant"}]},
+
+    {"name":"Data Processing", "description":"TODO", "unlocked":false, "avaible":false, 
+    "cost":[{"resource":"Knowledge", "amount":7500}], 
+    "unlocks":[{"name":"Standarized Solutions"},{"name":"CAD System"}, {"name":"Clock Boosters"}, {"name":"Complex Compression"}, {"name":"Complex Algorithms"}]}
+]

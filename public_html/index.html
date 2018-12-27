@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+	<title>ClickClickClicker</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.ico">
+    </head>
+    <body class="background" id="background">
+        
+        <!--main button-->
+        <button id="mainButton"></button>
+        
+        <!--Resources Tab-->
+        <div class="frame" id="resFrame">
+            <table id="resources">
+
+            </table>
+        </div>
+
+        <!--Surface Tab-->
+        <div class="frame" id="surfFrame">
+            Surface<br>
+
+        </div>
+        
+        <!--Surroundings Frame-->
+        <div class="frame" id="surrFrame">
+            Surroundings<br>
+
+        </div>
+
+        <!--Laboratory Tab-->
+        <div class="frame" id="labFrame">
+            Laboratory<br>
+
+        </div>
+
+        <!--Workshop Tab-->
+        <div class="frame" id="workFrame">
+            Workshop<br>
+
+        </div>
+
+        <!--Prestige Tab-->
+        <div class="frame" id="presFrame">
+            Prestige<br>
+
+        </div>
+        
+        <!--Stats Tab-->
+        <div class="frame" id="statsFrame">
+            Stats<br>
+
+        </div>
+        
+        <!--Log Tab-->
+        <div class="frame" id="logFrame">
+            <span class="msgHigh">Your spaceship embarks on its journey into the unknown.</span>
+        </div>
+        
+        <!--Switch Tab-->
+        <div class="frame" id="switchFrame">
+            <button class="button" id="surfButton">
+                Surface
+            </button> 
+            <button class="button" id="surrButton">
+                Surroundings
+            </button> 
+            <button class="button" id="labButton">
+                Laboratory
+            </button> 
+            <button class="button" id="workButton">
+                Workshop
+            </button> 
+            <button class="button" id="presButton">
+                Prestige
+            </button> 
+            <button class="button" id="statsButton">
+                Stats
+            </button> 
+            <button class="button" id="signalButton" style="display:none">(((o)))</button>
+        </div>
+        
+        <!--Settings Tab-->
+        <div class="frame" id="settingsFrame">
+            <button class="button" id="saveButton">
+                Save
+            </button> 
+            <button class="button" id="autoSaveButton">
+                Autosave
+            </button> 
+            <button class="button" id="loadButton">
+                Load
+            </button> 
+            <button class="button" id="autoLoadButton">
+                Auto-load
+            </button> 
+            <button class="button" id="resetButton">
+                Reset
+            </button> 
+            <button class="button" id="hideButton">
+                Hide Upgraded
+            </button> 
+            <button class="button" id="godButton">
+                Godmode
+            </button> 
+        </div>
+        
+        <!--Time Tab-->
+        <div class="frame" id="timeFrame">
+            It's <span id="tickCurr">0</span> on the spaceship!
+        </div>
+        
+        
+        <!--Load Scripts-->
+        <script src="scripts/utilties.js"></script>
+        <script src="scripts/resources.js"></script>
+        <script src="scripts/time.js"></script>
+        
+        <!--Count visit-->
+        <?php 
+            $file = fopen("log.txt", "w");
+            $log = "@";
+            fwrite($file, $log);
+            fclose($file);
+        ?>
+    </body>
+</html>

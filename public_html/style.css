@@ -1,0 +1,248 @@
+.background{
+    background-color: black;
+}
+
+.frame{
+    box-sizing: border-box;
+    background-image: url("res/images/back.jpg");
+    background-size: 712px 1072px;
+    background-color: white;
+    color: white;
+    padding: 5px;
+    border: 1px solid white;
+    margin: 0px;
+}
+
+.button{
+    position:relative;
+    left:-1px;
+    top:-1px;
+    background-image: url("res/images/back.jpg");
+    background-size: 712px 1072px;
+    background-color: black;
+    border: 1px solid white;
+
+    color: white;
+    outline: none;
+    transition-duration: 0.3s;
+    height:inherit;
+}
+.button:hover{
+    opacity: 0.8;
+}
+.button:active{
+    opacity: 0.6;
+}
+
+
+.floater{
+    position:fixed;
+    z-index:112;
+    color: black;
+    text-shadow: 0 0 3px #FFFFFF, 0 0 5px #FFFFFF;
+    font-size: 20px;
+    background:none;
+    border:none;
+    pointer-events: none;
+}
+
+
+.upgradeButton{
+    background-image: url("res/images/back.jpg");
+    background-size: 712px 1072px;
+    background-color: black;
+    border: 1px solid white;
+    padding: 5px;
+    color: white;
+    outline: none;
+    transition-duration: 0.3s;
+    height: 60px;
+    width: 190px;
+    margin: 2px;
+    position:relative;
+}
+.upgradeButton:disabled{
+    opacity: 0.5;
+}
+.upgradeButton:disabled .tooltip{
+    z-index: 111;
+}
+.upgradeButton .tooltip{
+    text-align: left;
+    visibility: hidden;
+    background-image: url("res/images/back.jpg");
+    background-size: 712px 1072px;
+    background-color: black;
+    border: 1px solid white;
+    padding: 5px;
+    color: white;
+    width: 200px;
+    position: absolute;
+    width: 178px;
+    top: 58px;
+    left: -1px;
+    opacity: 1;
+    z-index: 111;
+}
+.upgradeButton:hover .tooltip{
+    visibility: visible;
+}
+
+
+.msg{
+    display: list-item;
+    list-style:square;
+    margin-left: 1em;
+    word-wrap: break-word;
+}
+.msgHigh{
+    display: list-item;
+    list-style:square;
+    margin-left: 1em;
+    word-wrap: break-word;
+    color: red;
+}
+
+
+#mainButton{
+    position: absolute;
+    left:0px;
+    top:0px;
+    width: 19.5vw;
+    height: 19.5vw;
+    background-image: url("res/images/avatarRTG.jpg");
+    background-size: 19.5vw 19.5vw;
+    padding: 0px;
+    border: 1px solid white;
+    transition-duration: 0.3s;
+    outline: none;
+    margin:0.25vw;
+
+}
+#mainButton:hover{
+    opacity: 0.8;
+}
+#mainButton:active{
+    opacity: 0.6;
+}
+
+#presButton{
+    display:none;
+}
+
+
+#resFrame{
+    position: absolute;
+    top:19.75vw;
+    left:0;
+    height: calc(94vh - 20vw);
+    width: 19.5vw;
+    margin:0.25vw;
+}
+
+
+#surrFrame{
+    display:none;
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+    
+}
+#labFrame{
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+}
+#workFrame{
+    display: none;
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+}
+#statsFrame{
+    display: none;
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+}
+#presFrame{
+    display: none;
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+}
+#surfFrame{
+    display: none;
+    position: absolute;
+    left: 19.75vw;
+    top: 5.5vh;
+    width: 59.75vw;
+    height: 88vh;
+    margin:0.25vw;
+}
+
+#logFrame{
+    position: absolute;
+    top:5.5vh;
+    left:79.75vw;
+    width: 19.75vw;
+    height: 88vh;
+    overflow-y:  hidden;
+    margin:0.25vw;
+}
+
+#switchFrame{
+    position:absolute;
+    top:0px;
+    left:19.75vw;
+    height:5vh;
+    width:59.75vw;
+    margin:0.25vw;
+    padding:0px;
+}
+
+#settingsFrame{
+    position:absolute;
+    top:94vh;
+    left:0px;
+    height:4.75vh;
+    width:99.5vw;
+    margin:0.25vw;
+    padding:0px;
+}
+
+#timeFrame{
+    position:absolute;
+    top:0px;
+    left:79.75vw;
+    height:5vh;
+    width:19.75vw;
+    margin:0.25vw;
+}
+
+#resources{
+    margin: auto;
+}
+
+#mainFrame{
+    position: absolute;
+    left: 20vw;
+    top: 5vh;
+    width: 60vw;
+    height: 95vh;
+}
