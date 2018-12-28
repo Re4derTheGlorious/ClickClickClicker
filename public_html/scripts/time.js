@@ -5,25 +5,23 @@
     
 
     function tick(){
-        saveFile.data+=1;
-        logStat("Elapsed days", 1);
+        saveFile.date+=1;
+        logStat(localize("%stat_time_elapsed%"), 1);
         
         refreshSignal();
         
         countIncome();
-        
-        
+        advanceJourney()
 
         if(settings.autoSave){
             saveStuff();
         }
         saveStats();
-        saveSettings();
         addLogEntry("");
     }
     
     function refresh(){
-        refreshData();
+        refreshDate();
         refreshResources();
         refreshLaboratory();
         refreshSurroundings();
@@ -40,7 +38,17 @@
         }
     }
 
-    
+    function advanceJourney(){
+        if(saveFile.map.length==1){
+            if(saveFile.map[0].progress<saveFile.map[0].distance){
+                saveFile.map[0].progress+=settings.god ? getRes('velocity')*clickPower : getRes('velocity');
+                if(saveFile.map[0].progress>=saveFile.map[0].distance){
+                    endJourney();
+                }
+            }
+            drawJourney(saveFile.map[0].distance, saveFile.map[0].progress, getRes('velocity'));
+        }
+    }
     
 
     setInterval(tick, tickInterval);

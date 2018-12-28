@@ -1,5 +1,6 @@
     //autosave-load
-    var settings = {autoSave:false, autoLoad:false, hide:false, god:false};
+    var settings = {autoSave:false, autoLoad:false, hide:false, god:false, locale:"en"};
+    var locale = 0;
     var daysPerCycle = 100;
     
     function shortenValue(value){
@@ -31,7 +32,7 @@
     function addLogEntry(entry){
         var element = document.createElement('span');
         element.className = 'msg';
-        element.innerHTML = entry;
+        element.innerHTML = localize(entry);
         var firstElement = document.getElementById('logFrame').firstChild;
         document.getElementById('logFrame').insertBefore(element, firstElement);
     }
@@ -39,7 +40,7 @@
     function addHighLogEntry(entry){
         var element = document.createElement('span');
         element.className = 'msgHigh';
-        element.innerHTML = entry;
+        element.innerHTML = localize(entry);
         var firstElement = document.getElementById('logFrame').firstChild;
         document.getElementById('logFrame').insertBefore(element, firstElement);
     }
@@ -90,6 +91,44 @@
         else{
             document.getElementById("godButton").style.opacity = '0.5';
         }
+        
+    }
+    
+    function localize(message){
+        if(locale==0){
+            loadLocale();
+        }
+        
+        if(message.startsWith('%') && message.endsWith('%')){
+            for(var i = 0; i<locale.locale.length; i++){
+                if('%'+locale.locale[i][0]+'%'==message){
+                    return locale.locale[i][1];
+                }
+            }
+        }
+        return message;
+    }
+    
+    function refreshButtons(){
+        document.getElementById('godButton').innerHTML = localize('%interface_god%');
+        document.getElementById('resetButton').innerHTML = localize('%interface_reset%');
+        document.getElementById('hideButton').innerHTML = localize('%interface_hide%');
+        document.getElementById('saveButton').innerHTML = localize('%interface_save%');
+        document.getElementById('autoSaveButton').innerHTML = localize('%interface_auto_save%');
+        document.getElementById('loadButton').innerHTML = localize('%interface_load%');
+        document.getElementById('autoLoadButton').innerHTML = localize('%interface_auto_load%');
+        
+        document.getElementById('workButton').innerHTML = localize('%interface_workshop%');
+        document.getElementById('labButton').innerHTML = localize('%interface_laboratory%');
+        document.getElementById('surfButton').innerHTML = localize('%interface_surface%');
+        document.getElementById('surrButton').innerHTML = localize('%interface_surroundings%');
+        document.getElementById('presButton').innerHTML = localize('%interface_prestige%');
+        document.getElementById('statsButton').innerHTML = localize('%interface_stats%');
+    }
+    
+    function loadLocale(){
+        locale = JSON.parse(getXML('res/locale/'+settings.locale+'.json'));
+        refreshButtons();
     }
     
     function saveSettings(){
@@ -155,7 +194,7 @@
     }
     
     function signalButtonClick(){
-        logStat("Signals captured", 1);
+        logStat("%stat_signal_captured%", 1);
         var clickCache = [];
         
         for(var i = 0; i<saveFile.resources.length; i++){
@@ -192,21 +231,21 @@
             addResource(clickCache[i].name, toAdd);
         }
         
-        addLogEntry("Strange signal captured");
+        addLogEntry("%log_captured_transmission%");
         signalVisible = false;
         signalCurr = 0;
         document.getElementById('signalButton').style.display = 'none';
     }
     
     function mainButtonClick(event){
-        logStat("Main button clicks", 1);
+        logStat("%stat_main_button_clicked%", 1);
         
 
         var clickCache = [];
         
         for(var i = 0; i<saveFile.resources.length; i++){
             var cacheObject = {name:saveFile.resources[i].name, add:0, multiply:1};
-            if(cacheObject.name=="Knowledge"){
+            if(cacheObject.name=="resource_knowledge"){
                 cacheObject.add = 1;
             }
             clickCache.push(cacheObject);
@@ -258,6 +297,7 @@
         else{
             button.style.opacity = '0.5';
         }
+        saveSettings();
     }
     
     function hideButtonClick(){
@@ -269,6 +309,7 @@
         else{
             button.style.opacity = '0.5';
         }
+        saveSettings();
     }
     
     function autoSaveClick(){
@@ -280,6 +321,7 @@
         else{
             button.style.opacity = '0.5';
         }
+        saveSettings();
     }
     
     function autoLoadClick(){
@@ -291,13 +333,14 @@
         else{
             button.style.opacity = '0.5';
         }
+        saveSettings();
     }
     
     function shortenData(number){
         var shortened = '';
         var day = number%daysPerCycle;
         var cycle = (number-day)/daysPerCycle;
-        shortened = "cycle "+cycle+" day "+day;
+        shortened = localize("%time_cycle%")+" "+cycle+", "+localize('%time_day%')+" "+day;
         
         return shortened;
         

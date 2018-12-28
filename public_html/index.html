@@ -9,6 +9,7 @@
     </head>
     <body class="background" id="background">
         
+        
         <!--main button-->
         <button id="mainButton"></button>
         
@@ -57,10 +58,12 @@
         
         <!--Log Tab-->
         <div class="frame" id="logFrame">
-            <span class="msgHigh">Your spaceship embarks on its journey into the unknown.</span>
         </div>
         
         <!--Switch Tab-->
+        <div class="progressBar" id="progressBarBackground"></div>
+        <div class="progressBar" id="progressBarIncrement"></div>
+        <div class="progressBar" id="progressBar"></div>
         <div class="frame" id="switchFrame">
             <button class="button" id="surfButton">
                 Surface
@@ -86,31 +89,31 @@
         <!--Settings Tab-->
         <div class="frame" id="settingsFrame">
             <button class="button" id="saveButton">
-                Save
+                %interface_save%
             </button> 
             <button class="button" id="autoSaveButton">
-                Autosave
+                %interface_auto_save%
             </button> 
             <button class="button" id="loadButton">
-                Load
+                %interface_load%
             </button> 
             <button class="button" id="autoLoadButton">
-                Auto-load
+                %interface_auto_load%
             </button> 
             <button class="button" id="resetButton">
-                Reset
+                %interface_reset%
             </button> 
             <button class="button" id="hideButton">
-                Hide Upgraded
+                %interface_hide%
             </button> 
             <button class="button" id="godButton">
-                Godmode
+                %interface_god%
             </button> 
         </div>
         
         <!--Time Tab-->
         <div class="frame" id="timeFrame">
-            It's <span id="tickCurr">0</span> on the spaceship!
+            <span id="tickCurr">0</span>!
         </div>
         
         

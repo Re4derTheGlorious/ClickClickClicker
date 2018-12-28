@@ -1,17 +1,19 @@
 [
-    {"name":"Knowledge", "curr":0, "startMax":1000, "max":1000, "inc":0, "category":"basic"},
-    {"name":"Matter", "curr":0, "startMax":0, "max":0, "inc":0,"category":"basic"},
-    {"name":"Blueprint", "curr":0, "startMax":0, "max":0, "inc":0,"category":"basic"},
+    {"name":"resource_knowledge", "curr":0, "startMax":1000, "max":1000, "inc":0, "category":"basic"},
+    {"name":"resource_matter", "curr":0, "startMax":0, "max":0, "inc":0,"category":"basic"},
+    {"name":"resource_blueprint", "curr":0, "startMax":0, "max":0, "inc":0,"category":"basic"},
     
-    {"name":"Supplies", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
-    {"name":"Water", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
-    {"name":"Oxygen", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
+    {"name":"resource_supplies", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
+    {"name":"resource_water", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
+    {"name":"resource_oxygen", "curr":0, "startMax":0, "max":0, "inc":0,"category":"supplies"},
     
-    {"name":"Metal", "curr":0, "startMax":0, "max":0, "inc":0,"category":"industry"},
-    {"name":"Plastic", "curr":0, "startMax":0, "max":0, "inc":0,"category":"industry"},
+    {"name":"resource_metal", "curr":0, "startMax":0, "max":0, "inc":0,"category":"industry"},
+    {"name":"resource_plastic", "curr":0, "startMax":0, "max":0, "inc":0,"category":"industry"},
     
-    {"name":"Electronics", "curr":0, "startMax":0, "max":0, "inc":0,"category":"advIndustry"},
+    {"name":"resource_electronics", "curr":0, "startMax":0, "max":0, "inc":0,"category":"advIndustry"},
     
-    {"name":"Crew", "curr":10, "startMax":0, "max":0, "inc":0,"category":"misc"},
-    {"name":"Waste", "curr":0, "startMax":0, "max":0, "inc":0,"category":"misc"}
+    {"name":"resource_crew", "curr":10, "startMax":0, "max":0, "inc":0,"category":"misc"},
+    {"name":"resource_waste", "curr":0, "startMax":0, "max":0, "inc":0,"category":"misc"},
+    
+    {"name":"velocity", "curr":0.1, "startMax":0.1, "max": 0.1, "inc":0.1, "category":"hidden"}
 ]

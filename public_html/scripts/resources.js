@@ -1,5 +1,5 @@
     //saves
-    var saveFile = {resources: 0, data: 0, surroundings: 0, workshop: 0, laboratory: 0, stats: []};
+    var saveFile = {resources: 0, date: 0, surroundings: 0, workshop: 0, laboratory: 0, stats: [], map: []};
     var globalStats = [];
     
     //click power
@@ -15,12 +15,12 @@
     var roundingPlace = 100;
 
 
+    //init, helper, or to-be-moved-elsewhere
+
     function initRes(){ 
         //load settings
         loadSettings();
         loadStats();
-        
-        
         
         //load stuff
         if(settings.autoLoad){
@@ -29,11 +29,8 @@
         else{
             loadStartSetup();
         }
-        
-        
+
         createCode();
-        
-        
     }
     
     function createCode(){
@@ -43,22 +40,28 @@
             createTableRow(saveFile.resources[i]);
         }
         
+        //create htmlcode of surface
+        document.getElementById("surfFrame").innerHTML = "";
+        for(var i = 0; i<saveFile.map.length; i++){
+            createButton(saveFile.map[i], "surfFrame", "mapButton");
+        }
+        
         //create htmlcode of surroundings
         document.getElementById("surrFrame").innerHTML = "";
         for(var i = 0; i<saveFile.surroundings.length; i++){
-            createButton(saveFile.surroundings[i], "surrFrame");
+            createButton(saveFile.surroundings[i], "surrFrame", "upgradeButton");
         }
         
         //create htmlcode of laboratory
         document.getElementById("labFrame").innerHTML = "";
         for(var i = 0; i<saveFile.laboratory.length; i++){
-            createButton(saveFile.laboratory[i], "labFrame");
+            createButton(saveFile.laboratory[i], "labFrame", "upgradeButton");
         }
         
         //create htmlcode of workshop
         document.getElementById("workFrame").innerHTML = "";
         for(var i = 0; i<saveFile.workshop.length; i++){
-            createButton(saveFile.workshop[i], "workFrame");
+            createButton(saveFile.workshop[i], "workFrame", "upgradeButton");
         }
     }
     
@@ -68,7 +71,7 @@
         
         //name
         var tableData = document.createElement('td');
-        tableData.innerHTML = res.name;
+        tableData.innerHTML = localize('%'+res.name+'%');
         tableRow.appendChild(tableData);
         
         //amount
@@ -105,38 +108,38 @@
         document.getElementById("resources").appendChild(tableRow);
     }
     
-    function createButton(item, frame){
+    function createButton(item, frame, type){
         var button = document.createElement("button");
-        button.className = "upgradeButton";
-        button.id = item.name+' upgradeButton';
+        if(type=="upgradeButton"){
+            button.className = "upgradeButton";
+            button.id = item.name+' upgradeButton';
+        }
+        else if(type=="mapButton"){
+            button.className = "upgradeButton";
+            button.id = item.name+' mapButton';
+        }
         
         //load name
-        button.innerHTML = item.name;
+        button.innerHTML = localize('%'+item.name+'%');
         if(frame=="surrFrame"){
             button.innerHTML+=" (<span id=\""+item.name+"Curr"+"\">"+item.curr+"</span>)";
         }
         
+        button.addEventListener('click', function() {buttonAction(item, frame)} );
         
-        document.getElementById(frame).appendChild(button).appendChild(createBubble(item));
-        
-        //create event
-        if(frame=="labFrame"){
-            document.getElementById(item.name+' upgradeButton').addEventListener('click', function() {upgradeButtonAction(item, "lab")} );
-        }
-        else if(frame=="surrFrame"){
-            document.getElementById(item.name+' upgradeButton').addEventListener('click', function() {upgradeButtonAction(item, "surr" )});
-        }
-        else if(frame=="workFrame"){
-            document.getElementById(item.name+' upgradeButton').addEventListener('click', function() {upgradeButtonAction(item, "work" )});
-        }
+        document.getElementById(frame).appendChild(button).appendChild(createBubble(item, type));
+
     }
     
-    function upgradeButtonAction(item, type){
-        if(payResources(item.cost)==0){
-            if(type=='lab'){
+    function buttonAction(item, type){
+        if(type=="surfFrame"){
+            startJourney(item);
+        }
+        else if(payResources(item.cost)==0){
+            if(type=='labFrame'){
                 //unlock upgrade
                 item.unlocked = true;
-                logStat("Technologies researched", 1);
+                logStat(localize("%stat_technologies_researched%"), 1);
 
                 //unlock stuff
                 for(var i = 0; i<item.unlocks.length; i++){
@@ -201,68 +204,141 @@
                     }
                 }
                 
-                addLogEntry("Technology researched");
+                addLogEntry("%log_technology_researched%");
             }
-            else if(type=='surr'){
+            else if(type=='surrFrame'){
                 item.curr++;
-                logStat("Surroundings built", 1);
+                logStat("%stat_modules_built%", 1);
                 
                 for(var i = 0; i<item.cost.length; i++){
                     item.cost[i].amount*=item.ratio;
                 }
                 
-                addLogEntry("Surrounding created");
+                addLogEntry("%log_surr_created%");
             }
-            else if(type=="work"){
+            else if(type=="workFrame"){
                 item.unlocked = true;
-                logStat("Workshop upgrades unlocked", 1);
+                logStat("%stat_workshops_unlocked%", 1);
                 
-                addLogEntry("Upgrade unlocked");
+                addLogEntry("%log_workshop_unlocked%");
             }
         }
     }
     
-    function createBubble(item){
+    function startJourney(item){
+        //check for ongoing journeys
+        var journeyPossibile = true;
+        if(saveFile.map.length==1){
+            journeyPossibile = false;
+        }
+
+        //embark
+        if(journeyPossibile){
+            saveFile.map = [item];
+            item.progress+=getRes('velocity');
+            addHighLogEntry(localize("%journey_embark%")+" "+item.name);
+            logStat(localize("%stat_embarks%"), 1);
+        }
+        else{
+            addHighLogEntry(localize('%journey_fail%'));
+            return 0;
+        }
+        
+        //create progressbar
+        document.getElementById('switchFrame').style.opacity = '0.8';
+        document.getElementById('progressBar').style.display = 'block';
+        document.getElementById('progressBarIncrement').style.display = 'block';
+        document.getElementById('progressBarBackground').style.display = 'block';
+        drawJourney(item.distance, item.progress, getRes('velocity'));
+    }
+    
+    function drawJourney(distance, progress, increment){
+        var frameWidth = 59.75;
+        var progressWidth = (progress/distance)*frameWidth;
+        var incrementWidth = ((progress+increment)/distance)*frameWidth;
+        document.getElementById('progressBar').style.width = progressWidth+'vw';
+        document.getElementById('progressBarIncrement').style.width = incrementWidth+'vw';
+    }
+    
+    function endJourney(){
+        document.getElementById('switchFrame').style.opacity='';
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('progressBarIncrement').style.display = 'none';
+        document.getElementById('progressBarBackground').style.display = 'none';
+        addLogEntry(localize('%journey_end%'));
+        logStat('%stat_embarks_finished%', 1);
+    }
+    
+    function createBubble(item, type){
         var bubble = document.createElement("span");
         bubble.className = "tooltip";
         
         //load description
-        bubble.innerHTML = item.description+"<br>";
+        bubble.innerHTML = localize('%'+item.description+'%')+"<br>";
         
-        
-        if(item.type_income==true){
-            bubble.innerHTML+="<br>Income:<br>";
-            for(var i = 0; i<item.income.length; i++){
-                bubble.innerHTML+=item.income[i].resource+": ";
-                if(item.income[i].amount>0){
-                    bubble.innerHTML+="+";
+        if(type=="upgradeButton"){
+            if(item.type_income==true){
+                bubble.innerHTML+="<br>"+localize('%tooltip_income%')+":<br>";
+                for(var i = 0; i<item.income.length; i++){
+                    bubble.innerHTML+=localize('%'+item.income[i].resource+'%')+": ";
+                    if(item.income[i].amount>0){
+                        bubble.innerHTML+="+";
+                    }
+                    bubble.innerHTML+=round(item.income[i].amount);
+                    bubble.innerHTML+="<br>";
                 }
-                bubble.innerHTML+=round(item.income[i].amount);
-                bubble.innerHTML+="<br>";
+            }
+            if(item.type_storage==true){
+                bubble.innerHTML+="<br>"+localize('%tooltip_storage%')+"<br>";
+                for(var i = 0; i<item.storage.length; i++){
+                    bubble.innerHTML+=localize('%'+item.storage[i].resource+'%')+": +";
+                    bubble.innerHTML+=round(item.storage[i].amount);
+                    bubble.innerHTML+="<br>";
+                }
+            }
+
+            bubble.innerHTML+="<br>"+localize('%tooltip_cost%')+":<br>";
+            for(var i = 0; i<item.cost.length; i++){
+                bubble.innerHTML+=localize('%'+item.cost[i].resource+'%')+": ";
+                bubble.innerHTML+="<span name=\"currRes\" id="+item.cost[i].resource+"Curr"+">"+getRes(item.cost[i].resource)+"</span>";
+                bubble.innerHTML+="/<span name=\"currCost\" id=\""+item.name+item.cost[i].resource+"Cost\">"+round(item.cost[i].amount)+"</span><br>";
             }
         }
-        if(item.type_storage==true){
-            bubble.innerHTML+="<br>Storage:<br>";
-            for(var i = 0; i<item.storage.length; i++){
-                bubble.innerHTML+=item.storage[i].resource+": +";
-                bubble.innerHTML+=round(item.storage[i].amount);
-                bubble.innerHTML+="<br>";
-            }
+        else if(type=="mapButton"){
+            
         }
-        
-        bubble.innerHTML+="<br>Cost:<br>";
-        for(var i = 0; i<item.cost.length; i++){
-            bubble.innerHTML+=item.cost[i].resource+": ";
-            bubble.innerHTML+="<span name=\"currRes\" id="+item.cost[i].resource+"Curr"+">"+getRes(item.cost[i].resource)+"</span>";
-            bubble.innerHTML+="/<span name=\"currCost\" id=\""+item.name+item.cost[i].resource+"Cost\">"+round(item.cost[i].amount)+"</span><br>";
-        }
-        
         
         return bubble;
     }
     
+    function rerollMap(amount){
+        for(var i = 0; i<amount; i++){
+            createPlanet();
+        }
+    }
+    
+    function createPlanet(){
+        var planet = new Object;
+        planet.size = Math.random()*3;
+        planet.distance = Math.random()*100;
+        planet.difficulty = Math.random()*3;
+        planet.value = Math.random()*3;
+        planet.name = "defaultname";
+        planet.description = "defaultdescription";
+        
+        //random traits here
+        
+        //random resources here
+        
+        planet.progress = 0;
+        
+        saveFile.map.push(planet);
+    }
+    
+    //resource mechanics
+    
     function addResource(resourceName, value){
-        logStat("Resources gained", value);
+        logStat("%stat_resources_gained%", value);
         for(var i = 0; i<saveFile.resources.length; i++){
             if(saveFile.resources[i].name == resourceName){
                 var result = 0;
@@ -303,7 +379,7 @@
             return 0;
         }
         else{
-            addLogEntry("Not Enough Resources");
+            addLogEntry("%log_resources_lacking%");
             return -1;
         }
     }
@@ -325,7 +401,7 @@
     }
     
     function payResource(resourceName, value){
-        logStat("Resources paid", value);
+        logStat("%stat_resources_lost%", value);
         for(var i = 0; i<saveFile.resources.length; i++){
             if(saveFile.resources[i].name == resourceName){
                 var result = 0;
@@ -339,6 +415,16 @@
             }
         }
     }
+
+    function getResInc(name){
+        for(var i = 0; i<saveFile.resources.length; i++){
+            if(saveFile.resources[i].name==name){
+                return saveFile.resources[i].inc;
+            }
+        }
+    }
+    
+    //refreshing functions
     
     function refreshResources(){
         for(var i = 0; i<saveFile.resources.length; i++){
@@ -579,16 +665,8 @@
         }
     }
     
-    function getResInc(name){
-        for(var i = 0; i<saveFile.resources.length; i++){
-            if(saveFile.resources[i].name==name){
-                return saveFile.resources[i].inc;
-            }
-        }
-    }
-    
-    function refreshData(){
-        document.getElementById("tickCurr").innerHTML = shortenData(saveFile.data);
+    function refreshDate(){
+        document.getElementById("tickCurr").innerHTML = shortenData(saveFile.date)+" "+localize('%time_ending%');
     }
     
     function refreshSurroundings(){
@@ -693,20 +771,20 @@
     function refreshStats(){
         if(document.getElementById("statsFrame").style.display != 'none'){
             //local stats
-            document.getElementById("statsFrame").innerHTML = "Local stats:<br><br>";
+            document.getElementById("statsFrame").innerHTML = localize("%stat_local%")+":<br><br>";
             for(var i = 0; i<saveFile.stats.length; i++){
                 var entry = document.createElement("span");
                 entry.className = "stat";
-                entry.innerHTML = saveFile.stats[i].name+": "+shortenValue(round(saveFile.stats[i].value));
+                entry.innerHTML = localize(saveFile.stats[i].name)+": "+shortenValue(round(saveFile.stats[i].value));
                 document.getElementById("statsFrame").appendChild(entry);
                 document.getElementById("statsFrame").innerHTML+="<br>";
             }
             //global stats
-            document.getElementById("statsFrame").innerHTML += "<br><br>Global stats:<br><br>";
+            document.getElementById("statsFrame").innerHTML += "<br><br>"+localize("%stat_global%")+":<br><br>";
             for(var i = 0; i<globalStats.length; i++){
                 var entry = document.createElement("span");
                 entry.className = "stat";
-                entry.innerHTML = globalStats[i].name+": "+shortenValue(round(globalStats[i].value));
+                entry.innerHTML = localize(globalStats[i].name)+": "+shortenValue(round(globalStats[i].value));
                 document.getElementById("statsFrame").appendChild(entry);
                 document.getElementById("statsFrame").innerHTML+="<br>";
             }
@@ -719,30 +797,8 @@
         }
     }
     
-    function loadSurroundings(){
-        saveFile.surroundings = JSON.parse(getXML("res/JSONs/surroundings.json"));
-    }
-
-    function loadResources(){
-        saveFile.resources = JSON.parse(getXML("res/JSONs/resources.json"));
-    }
     
-    function loadLaboratory(){
-        saveFile.laboratory = JSON.parse(getXML("res/JSONs/laboratory.json"));
-    }
-    
-    function loadWorkshop(){
-        saveFile.workshop = JSON.parse(getXML('res/JSONs/workshop.json'));
-    }
-
-    function saveStuff(){
-        localStorage.setItem("saveFile", JSON.stringify(saveFile));
-    }
-    
-    function saveStats(){
-        localStorage.setItem("statsFile", JSON.stringify(globalStats));
-    }
-    
+    //loading functions
     function loadSave(){
         if(localStorage.getItem("saveFile")!=null){
             loadStartSetup();
@@ -764,14 +820,36 @@
     }
     
     function loadStartSetup(){
-        saveFile.data = 0;
+        saveFile.date = 0;
+        saveFile.map = [];
         saveFile.stats = [];
-        loadResources();
-        loadSurroundings();
-        loadLaboratory();
-        loadWorkshop();
+        saveFile.resources = JSON.parse(getXML("res/JSONs/resources.json"));
+        saveFile.surroundings = JSON.parse(getXML("res/JSONs/surroundings.json"));
+        saveFile.laboratory = JSON.parse(getXML("res/JSONs/laboratory.json"));
+        saveFile.workshop = JSON.parse(getXML('res/JSONs/workshop.json'));
+        
+        //reset journey progress bar
+        document.getElementById('switchFrame').style.opacity = '';
+        
+        //set default tab
+        labButtonClick();
+        
+        rerollMap(3);
+        addHighLogEntry("%start%");
+    }
+
+    //saving functions
+
+    function saveStuff(){
+        localStorage.setItem("saveFile", JSON.stringify(saveFile));
     }
     
+    function saveStats(){
+        localStorage.setItem("statsFile", JSON.stringify(globalStats));
+    }
+
+    //misc
+
     function refreshSignal(){
         var finalSignalChance = signalChance;
         var finalSignalLength = signalLength;
@@ -804,7 +882,7 @@
             if(signalCurr>finalSignalLength){
                 signalVisible = false;
                 document.getElementById('signalButton').style.display = 'none';
-                addLogEntry("Transmission lost");
+                addLogEntry("%log_lost_transmission%");
                 signalCurr = 0;
             }
         }
@@ -813,13 +891,12 @@
             if(Math.random()*10000<finalSignalChance){
                 signalVisible = true;
                 document.getElementById('signalButton').style.display = 'initial';
-                addLogEntry("Incoming transmission");
+                addLogEntry("%log_incoming_transmission%");
             }
         }
     }
     
     function reset(){
-        saveFile.data = 0;
         loadStartSetup();
         createCode();
         addHighLogEntry('reset');
@@ -829,8 +906,8 @@
         var prestigeValue = 0;
         loadStartSetup();
         createCode();
-        addResource("Prestige Resource", prestigeValue);
-        addLogEntry("Prestiged.");
+        addResource("resource_prestige", prestigeValue);
+        addLogEntry("%log_prestige_message%");
     }
     
     initRes();

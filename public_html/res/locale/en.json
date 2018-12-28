@@ -1,0 +1,69 @@
+{
+    "locale":[
+        ["reset", "The game was reset"],
+        ["start", "Here you stand on your ships bridge, with endless possibilities ahead of you. Chose your target wisely and embark onto your first journey into the unknown!"],
+
+        ["interface_hide", "Hide Upgraded"],
+        ["interface_god", "Godmode"],
+        ["interface_load", "Load"],
+        ["interface_auto_load", "Auto Load"],
+        ["interface_save", "Save"],
+        ["interface_auto_save", "Auto Save"],
+        ["interface_reset", "Reset"],
+        
+        ["interface_prestige", "Prestige"],
+        ["interface_surface", "Journey"],
+        ["interface_laboratory", "Laboratory"],
+        ["interface_workshop", "Workshop"],
+        ["interface_surroundings", "Spaceship"],
+        ["interface_stats", "Statistics"],
+        
+        ["log_resources_lacking", "Not enough resources"],
+        ["log_workshop_unlocked", "Upgrade unlocked"],
+        ["log_technology_researched", "Technology researched"],
+        ["log_surr_created", "New module built"],
+        ["log_incoming_transmission", "Detected strange incoming transmission"],
+        ["log_lost_transmission", "Strange signal lost"],
+        ["log_captured_transmission", "Strange signal was captured. It contained plenty of useful information"],
+        
+        ["journey_embark", "You embark onto journey to undiscovered planet"],
+        ["journey_end", "Your ship arrives at unknown planet "],
+        ["journey_interrupted", "Your journey was interrupted"],
+        ["journey_fail", "Cannot embark"],
+        
+        ["time_cycle", "Cycle"],
+        ["time_day", "day"],
+        ["time_ending", "of your journey"],
+        
+        ["resource_knowledge", "Knowledge"],
+        ["resource_blueprint", "Blueprint"],
+        ["resource_matter", "Matter"],
+        ["resource_supply", "Supplies"],
+        ["resource_water", "Water"],
+        ["resource_oxygen", "Oxygen"],
+        ["resource_metal", "Metal"],
+        ["resource_plastic", "Plastic"],
+        ["resource_electronics", "Electronics"],
+        ["resource_crew", "Crew"],
+        ["resource_waste", "Waste"],
+        
+        ["tooltip_income", "Income"],
+        ["tooltip_storage", "Storage"],
+        ["tooltip_cost", "Cost"],
+        
+        ["stat_embarks", "Journeys embarked onto"],
+        ["stat_embarks_finished", "Planets discovered"],
+        ["stat_local", "Local statistics"],
+        ["stat_global", "Global statistics"],
+        ["stat_time_elapsed", "Days elapsed"],
+        ["stat_signal_captured", "Signals captured"],
+        ["stat_main_button_clicked", "Main button clicks"],
+        ["stat_resources_gained", "Resources gained"],
+        ["stat_resources_lost", "Resources lost"],
+        ["stat_technologies_researched", "Technologies researched"],
+        ["stat_modules_built", "Modules built"],
+        ["stat_workshops_unlocked", "Workshop upgrades unlocked"],
+
+        ["map_reroll", "You managed to find new exploration targets"]
+    ]
+}

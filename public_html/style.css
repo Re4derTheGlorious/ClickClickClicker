@@ -13,6 +13,16 @@
     margin: 0px;
 }
 
+.progressBar{
+    position:absolute;
+    top:0px;
+    left:19.75vw;
+    height:5vh;
+    width:59.75vw;
+    margin:0.25vw;
+    padding:0px;
+}
+
 .button{
     position:relative;
     left:-1px;
@@ -106,6 +116,7 @@
 
 #mainButton{
     position: absolute;
+    opacity: 1;
     left:0px;
     top:0px;
     width: 19.5vw;
@@ -130,6 +141,19 @@
     display:none;
 }
 
+#progressBar{
+    background-color:green;
+    width: 0vw;
+}
+
+#progressBarIncrement{
+    background-color:greenyellow;
+    width: 0vw;
+}
+
+#progressBarBackground{
+    background-color:black;
+}
 
 #resFrame{
     position: absolute;

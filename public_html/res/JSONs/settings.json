@@ -1,4 +1,5 @@
 {
     "autoSave":"true",
-    "autoLoad":"true"
+    "autoLoad":"true",
+    "locale":"en"
 }
