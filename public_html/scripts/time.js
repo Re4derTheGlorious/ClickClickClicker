@@ -11,7 +11,8 @@
         refreshSignal();
         
         countIncome();
-        advanceJourney()
+        advanceJourney();
+        advanceScan();
 
         if(settings.autoSave){
             saveStuff();
@@ -38,15 +39,31 @@
         }
     }
 
+    function advanceScan(){
+        if(saveFile.map.length>1){
+            if(saveFile.map[saveFile.map.length-1].type=='scanIndicator'){
+                if(saveFile.map[saveFile.map.length-1].progress<saveFile.map[saveFile.map.length-1].required){
+                    saveFile.map[saveFile.map.length-1].progress+=settings.god ? getRes(saveFile.map[saveFile.map.length-1].scanResource)*clickPower : getRes(saveFile.map[saveFile.map.length-1].scanRes);
+                }
+                else{
+                    endScan();
+                }
+                drawProgressBar(saveFile.map[saveFile.map.length-1].required, saveFile.map[saveFile.map.length-1].progress, getRes(saveFile.map[saveFile.map.length-1].scanRes));
+            }
+        }
+    }
+
     function advanceJourney(){
-        if(saveFile.map.length==1){
-            if(saveFile.map[0].progress<saveFile.map[0].distance){
-                saveFile.map[0].progress+=settings.god ? getRes('velocity')*clickPower : getRes('velocity');
-                if(saveFile.map[0].progress>=saveFile.map[0].distance){
+        if(saveFile.map.length==2){
+            if(saveFile.map[1].type=='planet'){
+                if(saveFile.map[1].progress<saveFile.map[1].distance){
+                    saveFile.map[1].progress+=settings.god ? getRes('velocity')*clickPower : getRes('velocity');
+                }
+                else{
                     endJourney();
                 }
+                drawProgressBar(saveFile.map[1].distance, saveFile.map[1].progress, getRes('velocity'));
             }
-            drawJourney(saveFile.map[0].distance, saveFile.map[0].progress, getRes('velocity'));
         }
     }
     

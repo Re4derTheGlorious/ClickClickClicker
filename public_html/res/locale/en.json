@@ -17,6 +17,8 @@
         ["interface_workshop", "Workshop"],
         ["interface_surroundings", "Spaceship"],
         ["interface_stats", "Statistics"],
+        ["interface_scan", "Scan for new target planets"],
+        ["interface_scan_desc", "TODO"],
         
         ["log_resources_lacking", "Not enough resources"],
         ["log_workshop_unlocked", "Upgrade unlocked"],
@@ -51,6 +53,9 @@
         ["tooltip_storage", "Storage"],
         ["tooltip_cost", "Cost"],
         
+        ["stat_scans_complete", "Scans completed"],
+        ["stat_scans_started", "Scans started"],
+        ["stat_targets_found", "Potential targets found"],
         ["stat_embarks", "Journeys embarked onto"],
         ["stat_embarks_finished", "Planets discovered"],
         ["stat_local", "Local statistics"],

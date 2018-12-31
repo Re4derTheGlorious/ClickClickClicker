@@ -45,6 +45,7 @@
         for(var i = 0; i<saveFile.map.length; i++){
             createButton(saveFile.map[i], "surfFrame", "mapButton");
         }
+        createButton({"name":"%interface_scan%", "description":"%interface_scan_desc%"}, "surfFrame", "scanButton");
         
         //create htmlcode of surroundings
         document.getElementById("surrFrame").innerHTML = "";
@@ -118,6 +119,10 @@
             button.className = "upgradeButton";
             button.id = item.name+' mapButton';
         }
+        else if(type=='scanButton'){
+            button.className = "upgradeButton";
+            button.id = "scanButton";
+        }
         
         //load name
         button.innerHTML = localize('%'+item.name+'%');
@@ -133,7 +138,12 @@
     
     function buttonAction(item, type){
         if(type=="surfFrame"){
-            startJourney(item);
+            if(item.distance){
+                startJourney(item);
+            }
+            else{
+                startScan();
+            }
         }
         else if(payResources(item.cost)==0){
             if(type=='labFrame'){
@@ -225,46 +235,105 @@
         }
     }
     
+    function startScan(){
+        //check for ongoing journeys
+        var scanPossibile = true;
+        if(saveFile.map[saveFile.map.length-1].type=="scan indicator"){ //not sure what condition will be right now
+            if(saveFile.map[saveFile.map.length-1].progress>0){
+                scanPossibile = false;
+            }
+        }
+
+        //start scan
+        if(scanPossibile){
+            var indicator = {"type":"scanIndicator", "progress":0, "required":100, "scanRes":"velocity"};
+            saveFile.map.push(indicator);
+            indicator.progress+=getRes(indicator.scanRes);
+            addHighLogEntry(localize("%scan_start%"));
+            logStat("%stat_scans_started%", 1);
+        }
+        else{
+            addHighLogEntry(localize('%scan_fail%'));
+            return 0;
+        }
+        
+        resetProgressBar();
+        drawProgressBar(saveFile.map[saveFile.map.length-1].required, saveFile.map[saveFile.map.length-1].progress, getRes(saveFile.map[saveFile.map.length-1].scanRes));
+    }
+    
+    function endScan(){
+        //todo
+        rerollMap(3);
+        createCode();
+        
+        addLogEntry(localize("%scan_end%"));
+        logStat('%stat_scans_complete%', 1);
+        logStat('%stat_targets_found%', saveFile.map.length);
+    }
+    
     function startJourney(item){
         //check for ongoing journeys
         var journeyPossibile = true;
-        if(saveFile.map.length==1){
+        if(saveFile.map.length==2){
+            if(saveFile.map[1].type=='planet'){
+                journeyPossibile = false;
+            }
+            else if(saveFile.map[1].type=='scanIndicator'){ //not sure if that part works through
+                addHighLogEntry(localize('%scan_fail%'));
+            }
+        }
+        else if(item.progress>0){
             journeyPossibile = false;
         }
 
         //embark
         if(journeyPossibile){
-            saveFile.map = [item];
+            saveFile.map = [saveFile.map[0], item];
+            createCode();
             item.progress+=getRes('velocity');
             addHighLogEntry(localize("%journey_embark%")+" "+item.name);
-            logStat(localize("%stat_embarks%"), 1);
+            logStat("%stat_embarks%", 1);
         }
         else{
             addHighLogEntry(localize('%journey_fail%'));
-            return 0;
+            return;
         }
         
         //create progressbar
-        document.getElementById('switchFrame').style.opacity = '0.8';
-        document.getElementById('progressBar').style.display = 'block';
-        document.getElementById('progressBarIncrement').style.display = 'block';
-        document.getElementById('progressBarBackground').style.display = 'block';
-        drawJourney(item.distance, item.progress, getRes('velocity'));
+        resetProgressBar();
+        drawProgressBar(item.distance, item.progress, getRes('velocity'));
     }
     
-    function drawJourney(distance, progress, increment){
+    function resetProgressBar(){
+        document.getElementById('switchFrame').style.opacity = '0.8';
+        document.getElementById('progressBar').style.display = '';
+        document.getElementById('progressBarIncrement').style.display = '';
+        document.getElementById('progressBarBackground').style.display = '';
+    }
+    
+    function drawProgressBar(distance, progress, increment){
         var frameWidth = 59.75;
         var progressWidth = (progress/distance)*frameWidth;
         var incrementWidth = ((progress+increment)/distance)*frameWidth;
-        document.getElementById('progressBar').style.width = progressWidth+'vw';
-        document.getElementById('progressBarIncrement').style.width = incrementWidth+'vw';
+        if(progressWidth>=frameWidth){ //check for finish condition
+            document.getElementById('switchFrame').style.opacity='';
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('progressBarIncrement').style.display = 'none';
+            document.getElementById('progressBarBackground').style.display = 'none';
+            return;
+        }
+        else{ //paint progress
+            document.getElementById('progressBar').style.width = progressWidth+'vw';
+            document.getElementById('progressBarIncrement').style.width = incrementWidth+'vw';
+        }
     }
     
     function endJourney(){
-        document.getElementById('switchFrame').style.opacity='';
-        document.getElementById('progressBar').style.display = 'none';
-        document.getElementById('progressBarIncrement').style.display = 'none';
-        document.getElementById('progressBarBackground').style.display = 'none';
+        saveFile.map = [saveFile.map[1]];
+        saveFile.map[0].description = 'Current planet';
+        
+        createCode();
+        
         addLogEntry(localize('%journey_end%'));
         logStat('%stat_embarks_finished%', 1);
     }
@@ -312,6 +381,7 @@
     }
     
     function rerollMap(amount){
+        saveFile.map = [saveFile.map[0]];
         for(var i = 0; i<amount; i++){
             createPlanet();
         }
@@ -323,8 +393,9 @@
         planet.distance = Math.random()*100;
         planet.difficulty = Math.random()*3;
         planet.value = Math.random()*3;
-        planet.name = "defaultname";
+        planet.name = Math.random()*10;
         planet.description = "defaultdescription";
+        planet.type = "planet";
         
         //random traits here
         
@@ -834,7 +905,12 @@
         //set default tab
         labButtonClick();
         
-        rerollMap(3);
+        //starting planet
+        createPlanet();
+        saveFile.map[0].progress = saveFile.map[0].distance;
+        saveFile.map[0].description = 'Starting planet';
+        saveFile.map[0].name = 'Homeplanet';
+        
         addHighLogEntry("%start%");
     }
 
