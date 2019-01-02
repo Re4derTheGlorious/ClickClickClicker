@@ -28,6 +28,7 @@
         }
         else{
             loadStartSetup();
+            addHighLogEntry("%start%");
         }
 
         createCode();
@@ -257,7 +258,7 @@
             return 0;
         }
         
-        resetProgressBar();
+        setProgressBar('scan');
         drawProgressBar(saveFile.map[saveFile.map.length-1].required, saveFile.map[saveFile.map.length-1].progress, getRes(saveFile.map[saveFile.map.length-1].scanRes));
     }
     
@@ -300,15 +301,34 @@
         }
         
         //create progressbar
-        resetProgressBar();
+        setProgressBar('journey');
         drawProgressBar(item.distance, item.progress, getRes('velocity'));
     }
     
-    function resetProgressBar(){
+    function setProgressBar(type){
+        if(type=='scan'){
+            document.getElementById('progressBarIncrement').style.background = '#ffff1a';
+            document.getElementById('progressBar').style.background = '#cca300';
+        }
+        else if(type=='journey'){
+            document.getElementById('progressBarIncrement').style.background = '#00e600';
+            document.getElementById('progressBar').style.background = '#004400';
+        }
         document.getElementById('switchFrame').style.opacity = '0.8';
         document.getElementById('progressBar').style.display = '';
         document.getElementById('progressBarIncrement').style.display = '';
         document.getElementById('progressBarBackground').style.display = '';
+    }
+    
+    function resetProgressBar(){
+        if(saveFile.map[saveFile.map.length-1].type=='scanIndicator'){
+            setProgressBar('scan');
+        }
+        else if(saveFile.map[1]){
+            if(saveFile.map[1].type=='planet'){
+                setProgressBar('journey');
+            }
+        }
     }
     
     function drawProgressBar(distance, progress, increment){
@@ -874,6 +894,8 @@
         if(localStorage.getItem("saveFile")!=null){
             loadStartSetup();
             saveFile = JSON.parse(localStorage.getItem("saveFile"));
+            resetProgressBar();
+            addHighLogEntry("%game_loaded%");
         }
         else{
             loadStartSetup();
@@ -910,14 +932,13 @@
         saveFile.map[0].progress = saveFile.map[0].distance;
         saveFile.map[0].description = 'Starting planet';
         saveFile.map[0].name = 'Homeplanet';
-        
-        addHighLogEntry("%start%");
     }
 
     //saving functions
 
     function saveStuff(){
         localStorage.setItem("saveFile", JSON.stringify(saveFile));
+        addHighLogEntry("%game_saved%");
     }
     
     function saveStats(){
